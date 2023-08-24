@@ -1,7 +1,6 @@
-package fe.linksheet.interconnect;
+package tk.zwander.linksheet.interconnect;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.Collections;
 import java.util.List;

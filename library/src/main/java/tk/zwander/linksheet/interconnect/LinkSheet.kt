@@ -1,4 +1,4 @@
-package fe.linksheet.interconnect
+package tk.zwander.linksheet.interconnect
 
 import android.content.ComponentName
 import android.content.Context

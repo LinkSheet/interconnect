@@ -1,7 +1,7 @@
-package fe.linksheet.interconnect;
+package tk.zwander.linksheet.interconnect;
 
 import android.content.ComponentName;
-import fe.linksheet.interconnect.StringParceledListSlice;
+import tk.zwander.linksheet.interconnect.StringParceledListSlice;
 
 interface ILinkSheetService {
     // Retrieve the user-selected domains for the passed package.
