@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "tk.zwander.linksheet.interconnect"
-    compileSdk = 33
+    namespace = "fe.linksheet.interconnect"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21

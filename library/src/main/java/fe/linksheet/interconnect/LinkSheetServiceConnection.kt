@@ -1,9 +1,8 @@
-package tk.zwander.linksheet.interconnect
+package fe.linksheet.interconnect
 
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
-import tk.zwander.linksheet.interconnect.StringParceledListSlice
 
 /**
  * Wraps the connection and binder for the interconnect service,

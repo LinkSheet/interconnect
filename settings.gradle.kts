@@ -23,5 +23,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LinkSheetInterconnect"
+rootProject.name = "LinkSheetInterConnect"
 include("library")

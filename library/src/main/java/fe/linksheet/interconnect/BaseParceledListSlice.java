@@ -1,4 +1,4 @@
-package tk.zwander.linksheet.interconnect;
+package fe.linksheet.interconnect;
 
 import android.os.Binder;
 import android.os.Build;

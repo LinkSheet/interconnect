@@ -1,4 +1,4 @@
-package tk.zwander.linksheet.interconnect;
+package fe.linksheet.interconnect;
 
 import android.os.Parcel;
 
@@ -43,19 +43,19 @@ public class StringParceledListSlice extends BaseParceledListSlice<String> {
     }
 
     public static final ClassLoaderCreator<StringParceledListSlice> CREATOR =
-            new ClassLoaderCreator<StringParceledListSlice>() {
-        public StringParceledListSlice createFromParcel(Parcel in) {
-            return new StringParceledListSlice(in, null);
-        }
+            new ClassLoaderCreator<>() {
+                public StringParceledListSlice createFromParcel(Parcel in) {
+                    return new StringParceledListSlice(in, null);
+                }
 
-        @Override
-        public StringParceledListSlice createFromParcel(Parcel in, ClassLoader loader) {
-            return new StringParceledListSlice(in, loader);
-        }
+                @Override
+                public StringParceledListSlice createFromParcel(Parcel in, ClassLoader loader) {
+                    return new StringParceledListSlice(in, loader);
+                }
 
-        @Override
-        public StringParceledListSlice[] newArray(int size) {
-            return new StringParceledListSlice[size];
-        }
-    };
+                @Override
+                public StringParceledListSlice[] newArray(int size) {
+                    return new StringParceledListSlice[size];
+                }
+            };
 }
