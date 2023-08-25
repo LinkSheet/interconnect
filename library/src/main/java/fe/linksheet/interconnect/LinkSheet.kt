@@ -72,7 +72,7 @@ object LinkSheet {
      */
     fun Context.bindService(
         interconnectComponentName: String = INTERCONNECT_COMPONENT,
-        onBound: (LinkSheetServiceConnection) -> Unit
+        onBound: (LinkSheetServiceConnection) -> Unit,
     ) {
         if (!isLinkSheetInstalled()) {
             throw IllegalStateException("LinkSheet is not installed!")
@@ -104,9 +104,11 @@ object LinkSheet {
      * If multiple LinkSheet versions are installed (release/nightly/debug), this will bind to
      * release > nightly > debug
      */
-    suspend fun Context.bindService(): LinkSheetServiceConnection {
+    suspend fun Context.bindService(
+        interconnectComponentName: String = INTERCONNECT_COMPONENT,
+    ): LinkSheetServiceConnection {
         return suspendCoroutine { continuation ->
-            bindService {
+            bindService(interconnectComponentName) {
                 continuation.resume(it)
             }
         }
