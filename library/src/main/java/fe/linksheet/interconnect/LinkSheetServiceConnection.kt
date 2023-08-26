@@ -24,6 +24,13 @@ abstract class LinkSheetServiceConnection : ServiceConnection, ILinkSheetService
         service = null
     }
 
+    @Deprecated(
+        "Deprecated.",
+        replaceWith = ReplaceWith(
+            expression = "getSelectedDomainsAsync(packageName, callback)",
+            imports = arrayOf("fe.linksheet.interconnect.ISelectedDomainsCallback.Stub"),
+        ),
+    )
     final override fun getSelectedDomains(packageName: String?): StringParceledListSlice {
         assertService()
         return service!!.getSelectedDomains(packageName)
