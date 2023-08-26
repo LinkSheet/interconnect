@@ -1,19 +1,19 @@
-# LinkSheetInterconnect
+# LinkSheetInterConnect
 A way to communicate with [LinkSheet](https://github.com/1fexd/LinkSheet/), allowing your app to see which domains LinkSheet will send to it and to request domains be selected.
 
-[![GitHub Release](https://img.shields.io/github/v/release/1fexd/LinkSheetInterConnect?style=for-the-badge&logo=github&label=Version&color=orange)](https://github.com/1fexd/LinkSheetInterConnect/releases)
+[![](https://jitpack.io/v/1fexd/LinkSheetInterConnect.svg)](https://jitpack.io/#1fexd/LinkSheetInterConnect)
 
 ## Installation
 Add JitPack to your Maven repos:
 
-```groovy
-maven { url 'https://jitpack.io' }
+```kotlin
+maven(url="https://jitpack.io")
 ```
 
 Add the dependency:
 
-```groovy
-implementation 'com.github.1fexd:LinkSheetInterConnect:<VERSION>'
+```kotlin
+implementation("com.github.1fexd:LinkSheetInterConnect:<VERSION>")
 ```
 
 ## Usage
