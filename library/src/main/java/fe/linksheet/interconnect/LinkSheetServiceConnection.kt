@@ -76,6 +76,59 @@ abstract class LinkSheetServiceConnection : ServiceConnection, ILinkSheetService
         )
     }
 
+    final override fun selectDomainsWithCallback(
+        packageName: String,
+        domains: StringParceledListSlice,
+        componentName: ComponentName,
+        callback: IDomainSelectionResultCallback,
+    ) {
+        assertService()
+        service!!.selectDomainsWithCallback(
+            packageName, domains, componentName, callback,
+        )
+    }
+
+    fun selectDomainsWithCallback(
+        packageName: String,
+        domains: List<String>,
+        componentName: ComponentName,
+        callback: IDomainSelectionResultCallback,
+    ) {
+        selectDomainsWithCallback(
+            packageName,
+            StringParceledListSlice(domains),
+            componentName,
+            callback,
+        )
+    }
+
+    suspend fun selectDomainsWithResult(
+        packageName: String,
+        domains: List<String>,
+        componentName: ComponentName,
+    ): SelectDomainsResult {
+        assertService()
+
+        return suspendCoroutine { continuation ->
+            selectDomainsWithCallback(
+                packageName, domains, componentName,
+                object : IDomainSelectionResultCallback.Stub() {
+                    override fun onDomainSelectionConfirmed() {
+                        continuation.resume(SelectDomainsResult.ResultConfirmed)
+                    }
+
+                    override fun onDomainSelectionCancelled() {
+                        continuation.resume(SelectDomainsResult.ResultCanceled)
+                    }
+
+                    override fun onSomeDomainsSelected(selectedDomains: StringParceledListSlice?) {
+                        continuation.resume(SelectDomainsResult.ResultPartial(selectedDomains?.list ?: listOf()))
+                    }
+                }
+            )
+        }
+    }
+
     final override fun asBinder(): IBinder {
         assertService()
         return service!!.asBinder()

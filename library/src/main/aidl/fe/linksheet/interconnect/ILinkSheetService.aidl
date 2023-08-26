@@ -1,6 +1,7 @@
 package fe.linksheet.interconnect;
 
 import android.content.ComponentName;
+import fe.linksheet.interconnect.IDomainSelectionResultCallback;
 import fe.linksheet.interconnect.ISelectedDomainsCallback;
 import fe.linksheet.interconnect.StringParceledListSlice;
 
@@ -21,4 +22,11 @@ interface ILinkSheetService {
         in StringParceledListSlice domains,
         in ComponentName componentName
     ) = 2;
+
+    void selectDomainsWithCallback(
+        String packageName,
+        in StringParceledListSlice domains,
+        in ComponentName componentName,
+        in IDomainSelectionResultCallback callback
+    ) = 4;
 }
