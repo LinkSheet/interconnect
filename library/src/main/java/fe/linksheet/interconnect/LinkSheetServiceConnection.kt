@@ -31,12 +31,12 @@ abstract class LinkSheetServiceConnection : ServiceConnection, ILinkSheetService
             imports = arrayOf("fe.linksheet.interconnect.ISelectedDomainsCallback.Stub"),
         ),
     )
-    final override fun getSelectedDomains(packageName: String?): StringParceledListSlice {
+    final override fun getSelectedDomains(packageName: String): StringParceledListSlice {
         assertService()
         return service!!.getSelectedDomains(packageName)
     }
 
-    suspend fun getSelectedDomainsAsync(packageName: String?): StringParceledListSlice {
+    suspend fun getSelectedDomainsAsync(packageName: String): StringParceledListSlice {
         assertService()
         return suspendCoroutine { continuation ->
             getSelectedDomainsAsync(packageName, object : ISelectedDomainsCallback.Stub() {
@@ -48,20 +48,32 @@ abstract class LinkSheetServiceConnection : ServiceConnection, ILinkSheetService
     }
 
     final override fun getSelectedDomainsAsync(
-        packageName: String?,
-        callback: ISelectedDomainsCallback?
+        packageName: String,
+        callback: ISelectedDomainsCallback,
     ) {
         assertService()
         service!!.getSelectedDomainsAsync(packageName, callback)
     }
 
     final override fun selectDomains(
-        packageName: String?,
-        domains: StringParceledListSlice?,
-        componentName: ComponentName?
+        packageName: String,
+        domains: StringParceledListSlice,
+        componentName: ComponentName,
     ) {
         assertService()
         service?.selectDomains(packageName, domains, componentName)
+    }
+
+    fun selectDomains(
+        packageName: String,
+        domains: List<String>,
+        componentName: ComponentName,
+    ) {
+        selectDomains(
+            packageName,
+            StringParceledListSlice(domains),
+            componentName
+        )
     }
 
     final override fun asBinder(): IBinder {
