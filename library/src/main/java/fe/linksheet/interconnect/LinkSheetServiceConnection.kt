@@ -3,6 +3,8 @@ package fe.linksheet.interconnect
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Wraps the connection and binder for the interconnect service,
@@ -25,6 +27,17 @@ abstract class LinkSheetServiceConnection : ServiceConnection, ILinkSheetService
     final override fun getSelectedDomains(packageName: String?): StringParceledListSlice {
         assertService()
         return service!!.getSelectedDomains(packageName)
+    }
+
+    suspend fun getSelectedDomainsAsync(packageName: String?): StringParceledListSlice {
+        assertService()
+        return suspendCoroutine { continuation ->
+            getSelectedDomainsAsync(packageName, object : ISelectedDomainsCallback.Stub() {
+                override fun onSelectedDomainsRetrieved(selectedDomains: StringParceledListSlice) {
+                    continuation.resume(selectedDomains)
+                }
+            })
+        }
     }
 
     final override fun getSelectedDomainsAsync(
