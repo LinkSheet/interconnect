@@ -29,9 +29,9 @@ object LinkSheetConnector {
         Pro("pro"), Foss("foss"), Legacy
     }
 
-    val POSSIBLE_PACKAGE_NAMES = BuildFlavor.values().flatMap { flavor ->
+    val POSSIBLE_PACKAGE_NAMES = BuildFlavor.entries.flatMap { flavor ->
         val flavorPackageName = apply(BASE_PACKAGE_NAME, flavor.suffix)
-        BuildType.values().map { type -> apply(flavorPackageName, type.suffix) }
+        BuildType.entries.map { type -> apply(flavorPackageName, type.suffix) }
     }
 
     /**
