@@ -10,7 +10,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class LinkSheet(
     val packageName: String,
-    val interconnectComponentName: ComponentName?
+    val interconnectComponentName: ComponentName?,
 ) {
     val supportsInterconnect = interconnectComponentName != null
 
@@ -21,29 +21,31 @@ class LinkSheet(
      * this will bind to pro > foss > legacy, each with the build types release > nightly > debug
      * If LinkSheet is not installed, this returns null.
      */
-    fun Context.bindService(onBound: (LinkSheetServiceConnection) -> Unit) {
-        if (!supportsInterconnect) {
-            throw IllegalStateException("Installed LinkSheet version does not support Interconnect")
-        }
-
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            `package` = this@LinkSheet.packageName
-            component = interconnectComponentName
-        }
-
-        val connection = object : LinkSheetServiceConnection() {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                this.service = ILinkSheetService.Stub.asInterface(service)
-                onBound(this)
+    fun bindService(context: Context, onBound: (LinkSheetServiceConnection) -> Unit) {
+        with (context) {
+            if (!supportsInterconnect) {
+                throw IllegalStateException("Installed LinkSheet version does not support Interconnect")
             }
 
-            override fun disconnect() {
-                unbindService(this)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                `package` = this@LinkSheet.packageName
+                component = interconnectComponentName
             }
-        }
 
-        ContextCompat.startForegroundService(this, intent)
-        bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            val connection = object : LinkSheetServiceConnection() {
+                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                    this.service = ILinkSheetService.Stub.asInterface(service)
+                    onBound(this)
+                }
+
+                override fun disconnect() {
+                    unbindService(this)
+                }
+            }
+
+            ContextCompat.startForegroundService(this, intent)
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
     }
 
 
@@ -53,9 +55,9 @@ class LinkSheet(
      * If multiple LinkSheet types (release/nightly/debug) or flavors (pro, foss, legacy) are installed,
      * this will bind to pro > foss > legacy, each with the build types release > nightly > debug
      */
-    suspend fun Context.bindService(): LinkSheetServiceConnection {
+    suspend fun bindService(context: Context): LinkSheetServiceConnection {
         return suspendCoroutine { continuation ->
-            bindService { continuation.resume(it) }
+            bindService(context) { continuation.resume(it) }
         }
     }
 }

@@ -40,21 +40,27 @@ object LinkSheetConnector {
      * this will return pro > foss > legacy, each with the build types release > nightly > debug
      * If LinkSheet is not installed, this returns null.
      */
-    fun Context.getLinkSheet(interconnectComponent: String = INTERCONNECT_COMPONENT): LinkSheet? {
+    fun getLinkSheet(
+        context: Context,
+        interconnectComponent: String = INTERCONNECT_COMPONENT,
+    ): LinkSheet? {
         return POSSIBLE_PACKAGE_NAMES.firstNotNullOfOrNull {
-            getLinkSheet(it, interconnectComponent)
+            getLinkSheet(context, it, interconnectComponent)
         }
     }
 
-    fun Context.getLinkSheet(
+    fun getLinkSheet(
+        context: Context,
         packageName: String,
-        interconnectComponent: String = INTERCONNECT_COMPONENT
+        interconnectComponent: String = INTERCONNECT_COMPONENT,
     ): LinkSheet? {
-        packageManager.getApplicationInfoOrNull(packageName) ?: return null
+        with (context) {
+            packageManager.getApplicationInfoOrNull(packageName) ?: return null
 
-        val componentName = ComponentName(packageName, interconnectComponent)
-        val hasInterconnect = packageManager.getServiceInfoOrNull(componentName)
-        return LinkSheet(packageName, if (hasInterconnect != null) componentName else null)
+            val componentName = ComponentName(packageName, interconnectComponent)
+            val hasInterconnect = packageManager.getServiceInfoOrNull(componentName)
+            return LinkSheet(packageName, if (hasInterconnect != null) componentName else null)
+        }
     }
 
     private fun PackageManager.getApplicationInfoOrNull(packageName: String): ApplicationInfo? {
