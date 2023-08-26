@@ -3,10 +3,10 @@
 [plugins]
 
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version = "1.9.0" }
-com-android-library = { id = "com.android.library", version = "8.0.1" }
+com-android-library = { id = "com.android.library", version = "8.1.1" }
 net-nemerosa-versioning = { id = "net.nemerosa.versioning", version = "3.0.0" }
 
-gradle = { id = "gradle", version = "8.0.1" }
+gradle = { id = "gradle", version = "8.1.1" }
 
 [versions]
 
