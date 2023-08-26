@@ -14,10 +14,6 @@ import kotlin.coroutines.suspendCoroutine
  * LinkSheet from external clients.
  */
 object LinkSheet {
-    const val PACKAGE_NAME = "fe.linksheet"
-    const val NIGHTLY_PACKAGE = "$PACKAGE_NAME.nightly"
-    const val DEBUG_PACKAGE = "$PACKAGE_NAME.debug"
-
     const val INTERCONNECT_COMPONENT = "fe.linksheet.InterconnectService"
 
     /**
@@ -29,14 +25,12 @@ object LinkSheet {
 
     /**
      * Get the installed package name, if any.
-     * If multiple LinkSheet versions are installed (release/nightly/debug), this will return
-     * release > nightly > debug
+     * If multiple LinkSheet types (release/nightly/debug) or flavors (pro, foss, legacy) are installed,
+     * this will return pro > foss > legacy, each with the build types release > nightly > debug
      * If LinkSheet is not installed, this returns null.
      */
     fun Context.getInstalledPackageName(): String? {
-        val pkgs = listOf(PACKAGE_NAME, NIGHTLY_PACKAGE, DEBUG_PACKAGE)
-
-        return pkgs.firstOrNull {
+        return LinkSheetPackageName.POSSIBLE_PACKAGE_NAMES.firstOrNull {
             try {
                 @Suppress("DEPRECATION")
                 packageManager.getApplicationInfo(it, 0)
@@ -51,7 +45,6 @@ object LinkSheet {
         val installedPackage = getInstalledPackageName() ?: return false
 
         return try {
-            @Suppress("DEPRECATION")
             packageManager.getServiceInfo(
                 ComponentName(
                     installedPackage,
@@ -67,8 +60,9 @@ object LinkSheet {
     /**
      * A convenience function for binding the interconnect service.
      *
-     * If multiple LinkSheet versions are installed (release/nightly/debug), this will bind to
-     * release > nightly > debug
+     * If multiple LinkSheet types (release/nightly/debug) or flavors (pro, foss, legacy) are installed,
+     * this will bind to pro > foss > legacy, each with the build types release > nightly > debug
+     * If LinkSheet is not installed, this returns null.
      */
     fun Context.bindService(
         interconnectComponentName: String = INTERCONNECT_COMPONENT,
