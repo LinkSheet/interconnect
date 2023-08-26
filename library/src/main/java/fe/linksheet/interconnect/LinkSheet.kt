@@ -9,8 +9,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class LinkSheet(
-    private val packageName: String,
-    private val interconnectComponentName: ComponentName?
+    val packageName: String,
+    val interconnectComponentName: ComponentName?
 ) {
     val supportsInterconnect = interconnectComponentName != null
 
