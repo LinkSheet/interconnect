@@ -27,6 +27,14 @@ abstract class LinkSheetServiceConnection : ServiceConnection, ILinkSheetService
         return service!!.getSelectedDomains(packageName)
     }
 
+    final override fun getSelectedDomainsAsync(
+        packageName: String?,
+        callback: ISelectedDomainsCallback?
+    ) {
+        assertService()
+        service!!.getSelectedDomainsAsync(packageName, callback)
+    }
+
     final override fun selectDomains(
         packageName: String?,
         domains: StringParceledListSlice?,
