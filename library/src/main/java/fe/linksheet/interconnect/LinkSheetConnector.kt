@@ -2,9 +2,12 @@ package fe.linksheet.interconnect
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
+import android.net.Uri
+import androidx.core.content.IntentCompat
 
 /**
  * A utility to check if LinkSheet is installed and supports Interconnect
@@ -62,6 +65,16 @@ object LinkSheetConnector {
             val hasInterconnect = packageManager.getServiceInfoOrNull(componentName)
             return LinkSheet(packageName, if (hasInterconnect != null) componentName else null)
         }
+    }
+
+    /**
+     * Call this with the Intent LinkSheet sends to your Activity
+     * to find out which app originally sent the Intent.
+     */
+    fun getLinkSheetReferrer(
+        intent: Intent,
+    ): Uri? {
+        return IntentCompat.getParcelableExtra(intent, EXTRA_REFERRER, Uri::class.java)
     }
 
     private fun PackageManager.getApplicationInfoOrNull(packageName: String): ApplicationInfo? {
