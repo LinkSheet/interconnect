@@ -12,6 +12,7 @@ import android.content.pm.ServiceInfo
 object LinkSheetConnector {
     const val INTERCONNECT_COMPONENT = "fe.linksheet.InterconnectService"
     const val BASE_PACKAGE_NAME = "fe.linksheet"
+    const val EXTRA_REFERRER = "$BASE_PACKAGE_NAME.extra.REFERRER"
 
     fun getSpecificTypePackageName(flavor: BuildFlavor, type: BuildType): String {
         return apply(apply(BASE_PACKAGE_NAME, flavor.suffix), type.suffix)
