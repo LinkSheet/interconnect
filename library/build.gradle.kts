@@ -27,7 +27,7 @@ android {
 publishing {
     publications {
         create<MavenPublication>("release") {
-            groupId = android.namespace
+            groupId = "fe.linksheet.interconnect"
             version = versioning.info.tag ?: versioning.info.full
 
             afterEvaluate {
